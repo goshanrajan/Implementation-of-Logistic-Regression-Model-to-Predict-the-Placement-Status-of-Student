@@ -24,7 +24,7 @@ RegisterNumber:  212225040098
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
 
 # Load dataset
 data = pd.read_csv("C:/Users/acer/Downloads/Placement_Data.csv")
@@ -58,11 +58,9 @@ degree_p = float(input("Degree Percentage: "))
 etest_p = float(input("E-Test Percentage: "))
 mba_p = float(input("MBA Percentage: "))
 
-# Create input dataframe
 user_data = pd.DataFrame([[gender, ssc_p, hsc_p, degree_p, etest_p, mba_p]],
                          columns=['gender', 'ssc_p', 'hsc_p', 'degree_p', 'etest_p', 'mba_p'])
 
-# Predict placement status
 user_prediction = model.predict(user_data)
 
 if user_prediction[0] == 1:
@@ -70,17 +68,35 @@ if user_prediction[0] == 1:
 else:
     print("\nPlacement Status: NOT PLACED")
 
-# ---------------- CONFUSION MATRIX ----------------
+# ---------------- MODEL EVALUATION ----------------
 y_pred = model.predict(X_test)
 
+# Confusion Matrix
 cm = confusion_matrix(y_test, y_pred)
-
 print("\nConfusion Matrix:")
 print(cm)
+
+# Accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print("\nAccuracy:", accuracy)
+
+# Precision
+precision = precision_score(y_test, y_pred)
+print("Precision:", precision)
+
+# Sensitivity (Recall)
+sensitivity = recall_score(y_test, y_pred)
+print("Sensitivity (Recall):", sensitivity)
+
+# Specificity
+TN, FP, FN, TP = cm.ravel()
+specificity = TN / (TN + FP)
+print("Specificity:", specificity)
 ```
 
 ## Output:
-<img width="850" height="327" alt="image" src="https://github.com/user-attachments/assets/ea3acd31-3997-4893-a091-e63d0d1f2ab7" />
+<img width="706" height="432" alt="image" src="https://github.com/user-attachments/assets/388f919c-3536-4b05-a9bf-a058f7268447" />
+
 
 
 
